@@ -50,6 +50,8 @@ Picture a row of lockers, much like we have around our school. Each locker is ca
 
 In this crude picture, we can see locker numbers along the top, starting with `0`. Each of these is an **index**, just like from when we worked with `String` objects, and represents a particular locker in the row. Just like with `String` objects, we start at `0` for our indices, and count up from there. Also similarly, each array has a **length**, which is the total number of lockers it represents, and is always `1` more than the highest index, so that's `9 + 1`, which is a length of `10` in this case.
 
+*Advanced Note:* This similarity to `String` objects is not a coincidence. While they are packaged more neatly to make using them easier, `String` objects are just arrays of individual characters with some additional tools built in.
+
 Underneath the locker numbers, we can see what is stored in each locker. Just like with `String` objects, we can ask the `array` what value is stored in any particular locker by giving the index. For example, the value stored in locker `7` is `26`.
 
 ---
