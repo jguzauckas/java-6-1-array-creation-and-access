@@ -6,7 +6,10 @@ This section introduces our first data structure: the array. We go over what an 
 
 This section covers the following material:
 
-- 
+- The Need for Arrays
+- What is an Array?
+- Creating Arrays
+- Accessing Arrays
 
 To use this repository, start with the `notes.md` document, referencing the various `.java` documents as you go to see the examples in action.
 

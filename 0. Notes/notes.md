@@ -66,7 +66,7 @@ String[] stringArray;
 Person[] personArray;
 ```
 
-Each of these declarations represents different rows of lockers, where we establish what can be stored in the lockers in those rows. `intArray` represents a row of lockers that can hold `int` numbers, and `stringArray` represents a row of lockers that can hold `String` objects.
+Each of these declarations represents different rows of lockers, where we establish what can be stored in the lockers in those rows. `intArray` represents a row of lockers that can hold `int` numbers, and `stringArray` represents a row of lockers that can hold `String` objects. We can even make arrays with custom objects that we make, like `personArray` above.
 
 It isn't a requirement to put `array` in the variable name, though we usually want someway to identify that a variable is meant to hold multiple pieces of information as opposed to just a single value. Here is an example using the age problem from above in the `NotesDeclare2.java` file:
 
@@ -77,84 +77,111 @@ int[] ages;
 
 Here, just the subtle change to naming the variable `ages` instead of `age` can help someone to understand what the variable might be doing.
 
-As we know from our work throughout this year, just declaring a variable doesn't make or store any values, so how do we actually create an array to assign to the variables? For this purpose, we can think of arrays like any other object, where they need the keyword `new` to be created. There is a twist though, as instead of a constructor call with parentheses `()` like we are used to, we do a new kind of constructor call with square brackets `[]`, which 
+As we know from our work throughout this year, just declaring a variable doesn't make or store any values, so how do we actually create an array to assign to the variables? For this purpose, we can think of arrays like any other object, where they need the keyword `new` to be created. There is a twist though, as instead of a constructor call with parentheses `()` like we are used to, we do a new kind of constructor call with square brackets `[]`, which needs just one `int` argument: the length for the array (AKA how many lockers in the row). Here is what this would look like if I wanted to take the same array variables from `NotesDeclare1.java` and wanted to initialize them with arrays of various lengths in this example from the `NotesInitialize1.java` file:
 
+```java
+int[] intArray = new int[10];
+double[] doubleArray = new double[15];
+boolean[] booleanArray = new boolean[1];
+String[] stringArray = new String[0];
+Person[] personArray = new Person[1000];
+```
 
+Notice that regardless of what type of information the lockers store, the value provided in the square brackets to represent the length is always an `int`. Additionally, the length could be very large, like `personArray` being initialized with `1,000` lockers. They can also be very small, as you can see with `booleanArray` and `stringArray`. These lengths are not particularly useful, as in the case of `booleanArray`, only storing `1` `boolean` value is the same as just a `boolean` variable, and `stringArray` is even less helpful because it can't store any `String` objects. You cannot though, initialize an array with a negative length.
 
+It is important to create an array with the length that you need, since arrays are **immutable**, meaning we can't change them after they've been created, and they are stuck with the length we assign. Due to this, we are often very careful when we create arrays to make sure we don't make them too small, as it would cause problems later. On the other hand, we also don't want to make them too large, as that would potentially waste a lot of space in memory.
 
+*Advanced Note:* Arrays are immutable because of how they are stored in memory. When an array of length `n` is created, Java finds `n` sequential memory locations that aren't being used, and allocates them for the array. An array variable stores the starting memory location of those sequential spaces that have been allocated, and the index tells it how many locations to move over from the starting location to get each value. Therefore, the first index is `0`, because we move `0` locations over from the start to get the first value. For some interesting purposes later on, this also means that array variables store references, much like other objects we work with, and deal with all the similar consequences that come out of that.
 
-# Nested Iteration
+In our ages examples above, we know that it is myself and nine friends, so we will need a length of `10`. Our full initialization would look like this example from the `NotesInitialize2.java` file:
 
-In Unit 3, we encountered what would happen if we **nested** `if` statements, or put `if` statements inside of one another. It was fairly straightforward, as you'd have to pass both `boolean` conditions to perform the inside of the inner `if` block.
+```java
+int[] ages = new int[10];
+```
 
-Just like `if` statements, we can nest loops as well, though the behavior they introduce is a little bit more interesting.
+This creates the array `ages`, which will store `10` `int` values. Importantly, we haven't told it what the ages to store are, so it has created this array without knowing what values to store. Whenever this happens, it populates the array with **default values** for the type that it is storing. As a refresher, here are the default values for the types we typically work with:
+- `int` --> `0`
+- `double` --> `0.0`
+- `boolean` --> `false`
+- Objects --> `null`
+
+While we said earlier that arrays are **immutable**, this is just referring to the overall structure, with things like length. The individual values stored by an array can be modified according to their own rules (that is, if the data itself is primitive types, mutable objects, or immutable objects).
+
+This means that in our ages example, the array would have been initialized as `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`, which is clearly not what we were intending to do. To initialize an array based on a pre-defined list of values, referred to as an **initializer list**, it looks a little bit different. This time, after the square brackets, we will put our initializer list of values in curly braces `{}`, with commas between each one. Since we are providing the initializer list, we no longer put an `int` value in the square brackets, because Java can just read how many values are in the initializer list to determine the length. Here is an example from the `NotesInitialize3.java` file that shows how we can use initializer lists with any of our array types:
+
+```java
+int[] intArray = new int[] {5, 10, 15, 20}; // Length of 4
+double[] doubleArray = new double[] {5.2, 3.4, -16.5, 1005.7, 0.0}; // Length of 5
+boolean[] booleanArray = new boolean[] {true, false, false, true}; // Length of 4
+String[] stringArray = new String[] {"Hello, World!", "Mr. G", "John"}; // Length of 3
+Person person1 = new Person("Mr. G", 26);
+Person[] personArray = new Person[] {person1, new Person("John", 26)}; // Length of 2
+```
+
+An important point of understanding is demonstrated here by the `personArray` array, which uses both a variable that stores a `Person`, and uses the constructor to make a new `Person` in the initializer list, which works perfectly fine.
+
+It does bring back an important concept that we have been touching on more frequently though, which is storing by reference versus storing by value. To summarize, variables in Java store the value or a reference (memory location) depending on the type being assigned to it. Primitive types are stored directly in the variable, or better phrased as the value is stored in the variable. Objects are typically stored by reference, meaning that their actual data is elsewhere in memory, and the variable just stores the reference, or memory location, of that actual data. This is important to think about with arrays, as they store things exactly like variables do. Primitive types store their actual values (so for `int`, `double`, and `boolean`, the values are stored directly in the array), and objects are stored by reference, so the array itself only stores memory addresses to the objects elsewhere. This means that the `person1` variable and the first locker (index `0`) of `personArray` are aliases to the same object, since they are both storing the same memory address.
+
+With the initializer list, we can finally store our ages example in an array, as visualized in the locker analogy above. Here is an example of this from the `NotesInitialize4.java` file:
+
+```java
+int[] ages = new int[] {26, 25, 24, 26, 27, 32, 31, 26, 24, 25};
+```
 
 ---
 
-## Nested Iteration
+## Accessing Arrays
 
-While complicated to understand and use effectively, **nested iteration** is really simple to set up: just put one loop inside of another. Here is an example from the `NotesNested1.java` file:
+Now that we know how to make arrays, we need to know how to interact with them. We refer to working with the individual elements of an array as **accessing** and **modifying** them (these names are analogous to our accessor and mutator methods from Unit 5).
 
-```java
-for (int i = 1; i <= 4; i++) {
-    for (int j = 1; j <= 5; j++) {
-        System.out.print(i + " ");
-    }
-    System.out.println();
-}
-```
-
-This produces the following output:
-
-```
-1 1 1 1 1 
-2 2 2 2 2 
-3 3 3 3 3 
-4 4 4 4 4
-```
-
-Let's digest how this is operating to produce this output. First and foremost is a rule: for every iteration of the outer loop (in this case that is the one with `i`), the inner loop needs to run completely (in this case the loop with `j` needs to do all of its repetitions).
-
-Let's break this down into the steps the computer would follow:
-
-1. The outer loop is initialized, making the variable `i` and setting it to `1`. Now we are ready to run things inside of the outer loop.
-2. According to the rules of iteration, we need to run the block of code inside of our loop, which in this case happens to be another loop. We initialize that loop by making the variable `j` and setting it to a value of `1`. Now we are ready to run things inside of the inner loop.
-3. When we are inside of the inner loop, both of our variables `i` and `j` exist and are defined. So when we run the `print` statement, it can use the value of `i`, which has started at `1`. The inner loop demands that we repeat this 4 more times by incrementing the value of `j`, for a total of 5 times, producing the line `1 1 1 1 1`.
-4. Once we finish the inner loop, we finish the block of code inside the outer loop by running the `println` statement. Now we can go back outside and increment the variable `i` to get `2`, and repeat the process inside.
-5. Each time we do the process inside, it prints the value of `i` 5 times with spaces in between, then puts a newline before the next value of `i`. Since the outer loop goes until `i` is `4`, we will end up with 4 lines of output.
-
-While important to note that this effectively repeated the `print` statement 20 times, it is significant that this repeated the print statement in bunches of 5, where within a bunch the print statement was not changing. We printed `1` 5 times, `2` 5 times, `3` 5 times and `4` 5 times.
-
----
-
-## Inner Loops that Depend on Outer Loops
-
-In our example above, the inner loop always ran 5 times, since `j` went from `1` to `5`. However, because when we run the inner loop with `j`, `i` exists, we can define our inner `boolean` condition using the value of `i` to make it more dynamic.
-
-Let's say our goal is to produce this output:
-
-```
-1
-2 2
-3 3 3
-4 4 4 4
-```
-
-So basically, we want to print each number itself's number of times. 1 gets printed 1 time, 2 gets printed 2 times, etc. Just like the last example, we will use our outer loop as the number we are printing out. So it's header will look like `for (int i = 1; i <= 4; i++)`. With that established, we have to think about how to set up the inner loop. We know that when `i` is 1, we want it to run 1 time, and when it is `2`, we want it to run `2` times. We can start `j` at `1` and will increment it, so the only question is the `boolean` condition. If we start `j` at `1`, when `i` is `1` we need it to pass one time, but fail after incrementing, which should work with `j <= i` as `1 <= 1` works but `2 <= 1` does not. When `i` is `2`, we need to run twice and then fail, so `1 <= 2` works, `2 <= 2` works, and `3 <= 2` fails. So our inner loop header needs to be `for (int j = 1; j <= i; j++)`. The print statements will be setup the same way as our previous example, so we get the final code from the `NotesNested2.java` file:
+To **access** an individual piece of data in an array, we again use our square brackets. Once an array has been created, we can use square brackets with the variable to request the value stored in any particular locker by providing its index. Here is an example using the ages from above in the `NotesAccess1.java` file:
 
 ```java
-for (int i = 1; i <= 4; i++) {
-    for (int j = 1; j <= i; j++) {
-        System.out.print(i + " ");
-    }
-    System.out.println();
-}
+int[] ages = new int[] {26, 25, 24, 26, 27, 32, 31, 26, 24, 25};
+System.out.println(ages[0]);
 ```
 
-When run, this produces the output we want! Two really important things to note:
+This will print out the first element (remember: `0` is the first index) of the array that the variable `ages` represents, which we know is `26`. Note that accessing here is much like an **accessor method** from Unit 5, it just allows us to get any value in the array.
 
-1. There was exactly one change from the first example to the second example, despite the drastically different output. The inner `boolean` condition changed from `j <= 5` to `j <= i`.
-2. Because of our use of loops this is extremely easy to modify to do more or less. If I want this to print more or fewer numbers following the rule, I just need to modify the outer `boolean` condition of `i <= 4`.
+You might notice that, since the indices are just counting up from `0`, loops could play a role in this and go through and access each element of an array. This will be the premise of Unit 6 Section 2.
+
+To **modify** an individual piece of data, we use the square bracket with our variable to request a specific locker, and then use our basic variable assignment skills to replace the value. Let's say that my friend Owen had his birthday recently, so his age needs to be updated in the array. He was the second friend (or therefore the third person), so his age is stored at index `2`. Here is an example from the `NotesModify1.java` file that changes his age:
+
+```java
+int[] ages = new int[] {26, 25, 24, 26, 27, 32, 31, 26, 24, 25};
+System.out.println(ages[2]);
+ages[2] = 25;
+System.out.println(ages[2]);
+```
+
+We can see that this successfully updates his age to `25`, as it prints out the original value `24` at first, and then prints `25` after the modification. We can also do compound assignment just like a normal variable, which makes updating for a birthday even easier. Let's say my friends Sam (index `5`), Liam (index `3`), and Drew (index `4`) all had a birthday as well (or I am behind and need to catch up on updating the ages). Here are three different ways to modify an array value based on its current value in the `NotesModify2.java` file:
+
+```java
+int[] ages = new int[] {26, 25, 24, 26, 27, 32, 31, 26, 24, 25};
+System.out.println(ages[5]);
+ages[5] = ages[5] + 1;
+System.out.println(ages[5]);
+System.out.println(ages[3]);
+ages[3] += 1;
+System.out.println(ages[3]);
+System.out.println(ages[4]);
+ages[4]++;
+System.out.println(ages[4]);
+```
+
+For most practical purposes, an array variable at a specific index functions just like any other variable, so we can print, change, update, etc. This becomes especially relevant when working with arrays that store objects. An array variable at a specific index can then be used with the dot operator `.` to do anything that you would normally do with that object like calling methods. Here is an example with `Person` objects in the `NotesModify3.java` file:
+
+```java
+Person person1 = new Person("Mr. G", 26);
+Person[] personArray = new Person[] {person1, new Person("John", 26)};
+System.out.println(personArray[1].getAge());
+personArray[1].setAge(30);
+System.out.println(personArray[1].getAge());
+```
+
+This means that even though they are inside an array, we can do anything with these objects that we would have been able to do if they had been stored in their own variables, which is really useful!
+
+Just like with `String` objects and their use of indices with things like `substring`, we can have errors that pop up if we try to check or use an invalid index. Just like a `String` object, the valid indices are from `0`, up to, but not including, `length`. For our ages example, valid indices go from `0` to `9`, since the length is `10`. If we try to access or modify an invalid index, we get an `ArrayIndexOutOfBoundsException`, and our program crashes. An easy thing to always check for as you code is not to check a negative index, since those would never work, regardless of length.
 
 ---
 
