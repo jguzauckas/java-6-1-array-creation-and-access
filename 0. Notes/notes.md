@@ -58,7 +58,7 @@ Underneath the locker numbers, we can see what is stored in each locker. Just li
 
 ## Creating Arrays
 
-Since arrays aren't a new type in their own right (they aren't like our primitive types `int`, `double`, or `boolean`, or even like our objects like `String` or `Person`), they will utilize the types we have already been using with a slight twist in the form of square brackets `[]`. The difference between declaring an `int` variable and an `int` array variable is a subtle change of adding the square brakcets `[]`. Here is an example of declaring arrays of a few different types from the `NotesDeclare1.java` file:
+Since arrays aren't a new type in their own right (they aren't like our primitive types `int`, `double`, or `boolean`, or even like our objects like `String` or `Person`), they will utilize the types we have already been using with a slight twist in the form of square brackets `[]`. The difference between declaring an `int` variable and an `int` array variable is a subtle change of adding the square brackets `[]`. Here is an example of declaring arrays of a few different types from the `NotesDeclare1.java` file:
 
 ```java
 int[] intArray;
@@ -109,7 +109,7 @@ This creates the array `ages`, which will store `10` `int` values. Importantly, 
 
 While we said earlier that arrays are **immutable**, this is just referring to the overall structure, with things like length. The individual values stored by an array can be modified according to their own rules (that is, if the data itself is primitive types, mutable objects, or immutable objects).
 
-This means that in our ages example, the array would have been initialized as `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`, which is clearly not what we were intending to do. To initialize an array based on a pre-defined list of values, referred to as an **initializer list**, it looks a little bit different. This time, after the square brackets, we will put our initializer list of values in curly braces `{}`, with commas between each one. Since we are providing the initializer list, we no longer put an `int` value in the square brackets, because Java can just read how many values are in the initializer list to determine the length. Here is an example from the `NotesInitialize3.java` file that shows how we can use initializer lists with any of our array types:
+This means that in our ages example, the array would have been initialized as `{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}`, which is clearly not what we were intending to do. To initialize an array based on a pre-defined list of values, referred to as an **initializer list**, it looks a little bit different. This time, after the square brackets, we will put our initializer list of values in curly braces `{}`, with commas between each one. Since we are providing the initializer list, we no longer put an `int` value in the square brackets, because Java can just read how many values are in the initializer list to determine the length. Here is an example from the `NotesInitialize3.java` file that shows how we can use initializer lists with any of our array types:
 
 ```java
 int[] intArray = new int[] {5, 10, 15, 20}; // Length of 4
