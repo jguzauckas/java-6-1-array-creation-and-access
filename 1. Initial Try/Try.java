@@ -1,10 +1,9 @@
 public class Try {
     public static void main (String[] args){
-        for (int i = 5; i; i--) {
-            for (int j = 1; j; j++) {
-                System.out.print( + " ");
-            }
-            System.out.println();
-        }
+        int nums = new int[5];
+        double[] moreNums = double[10];
+        boolean[] bools = new boolean[];
+        String[] strs = new String;
+        Person[] people = new Person[2] {new Person(), new Person()};
     }
 }
